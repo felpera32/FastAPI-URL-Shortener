@@ -1,4 +1,4 @@
-# FastAPI URL Shortener 🚀
+# FastAPI URL Shortener 
 
 Um encurtador de URLs desenvolvido em Python utilizando FastAPI e PostgreSQL.
 
