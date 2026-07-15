@@ -61,7 +61,7 @@ Configure o banco PostgreSQL e as variáveis necessárias.
 Execute:
 
 ```bash
-uvicorn main:app --reload
+uvicorn App.Server.server:app --reload
 ```
 
 A documentação da API estará disponível em:

@@ -4,7 +4,7 @@ from App.Database.Database import saveData, getData, updateClicks
 
 def generateShortUrl():
     code = generateLink()
-    short_link = f"http://localhost:3001/redirect/{code}"
+    short_link = f"http://localhost:8000/redirect/{code}"
     return short_link, code
 
 
