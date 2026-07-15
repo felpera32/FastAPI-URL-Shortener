@@ -17,18 +17,41 @@ conn = psycopg.connect(host=dbHost, dbname=dbName, user=dbUser, password=dbPassw
 
 scheduler =  BackgroundScheduler()
 
+
+def init_db(conn):
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+        CREATE TABLE links (
+            id SERIAL PRIMARY KEY,
+            original_url TEXT NOT NULL,
+            short_url TEXT NOT NULL,
+            code TEXT UNIQUE NOT NULL,
+            clicks INTEGER NOT NULL DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            expires_at TIMESTAMP
+        );
+    """
+        )
+    conn.commit()
+
 def saveData(code, originalLink, clicks, encurtedLink):
     time = datetime.now()
     expireTime = time + timedelta(days=30)
     with conn.cursor() as cur:
         cur.execute(
-            """
-            INSERT INTO links (code, original_url, clicks, created_at, expires_at, encurted_url)
-            VALUES ( %s, %s, %s, %s, %s, %s)
-            """,
-            (code, originalLink, clicks, time, expireTime, encurtedLink)
+        """
+        INSERT INTO links (
+            code,
+            original_url,
+            clicks,
+            created_at,
+            expires_at,
+            short_url
         )
-    conn.commit()
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """,
+        (code, originalLink, clicks, time, expireTime, encurtedLink))
 
 
 
