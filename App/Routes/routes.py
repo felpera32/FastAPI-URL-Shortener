@@ -8,11 +8,11 @@ routeApp = APIRouter()
 
 
 @routeApp.post("/links")
-async def createLinks(body: linkValidator):
+def createLinks(body: linkValidator):
     dictBody = body.model_dump(mode="json")
     uncurtedLink = dictBody.get("link")
     encurtedUrl, code = generateShortUrl()
-    saveDataService(code, uncurtedLink, encurtedUrl)
+    await saveDataService(code, uncurtedLink, encurtedUrl)
     return JSONResponse(status_code=201, content={
         "message": "Link Encurtado com sucesso",
         "Link": f"{encurtedUrl}",
@@ -21,6 +21,6 @@ async def createLinks(body: linkValidator):
 
 
 @routeApp.get("/redirect/{code}")
-async def redirect(code: str):
+def redirect(code: str):
     updateClicksOnDb(code)
     return RedirectResponse(url=locateDataOnDb(code))
