@@ -12,7 +12,7 @@ def createLinks(body: linkValidator):
     dictBody = body.model_dump(mode="json")
     uncurtedLink = dictBody.get("link")
     encurtedUrl, code = generateShortUrl()
-    await saveDataService(code, uncurtedLink, encurtedUrl)
+    saveDataService(code, uncurtedLink, encurtedUrl)
     return JSONResponse(status_code=201, content={
         "message": "Link Encurtado com sucesso",
         "Link": f"{encurtedUrl}",
